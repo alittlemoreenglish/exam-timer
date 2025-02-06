@@ -112,7 +112,7 @@ class ExamTimer {
     const examInfoDiv = document.createElement('div');
     examInfoDiv.classList.add('exam-info');
     examInfoDiv.innerHTML = `
-      <div> ${this.examNameInput.value || 'Unnamed Exam'}</div>
+      <div> ${this.examNameInput.value || ' '}</div>
       <div> ${this.examInfoInput.value || ' '}</div>
     `;
     this.rightSection.insertBefore(examInfoDiv, this.rightSection.firstChild);
