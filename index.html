@@ -1,0 +1,38 @@
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Exam Timer by Aaron Shi</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <div class="exam-timer-container">
+    <div class="left-section">
+      <div class="digital-info">
+        <div id="digitalClock" class="digital-clock">00:00:00</div>
+        <div id="digitalDate" class="digital-date">Date</div>
+      </div>
+    </div>
+    <div class="right-section">
+      <div class="countdown-timer">
+        <div id="countdownDisplay" class="countdown-display">00:00:00</div>
+        <div class="countdown-controls">
+          <input type="number" id="examHours" placeholder="Hours" min="0">
+          <input type="number" id="examMinutesInput" placeholder="Minutes" min="0" max="59">
+          <button id="setTimerBtn">Set Timer</button>
+        </div>
+      </div>
+      <div class="proctor-inputs">
+        <input type="text" id="examNameInput" placeholder="Exam Name">
+        <input type="text" id="examInfoInput" placeholder="Exam Info">
+        <div class="exam-controls">
+          <button id="startBtn">Start Exam</button>
+          <button id="stopBtn">Stop Exam</button>
+          <button id="resetBtn">Reset</button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="author-info">Author: Aaron Shi. Released in February 2025.</div>
+  <script type="module" src="timer.js"></script>
+</body>
+</html>
