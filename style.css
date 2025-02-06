@@ -1,0 +1,167 @@
+body {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  font-family: Arial, sans-serif;
+  background-image: url('https://alittlemoreenglish.weebly.com/uploads/2/6/6/3/26638990/gradient-background-soft-colors_orig.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  margin: 0;
+}
+
+.exam-timer-container {
+  display: flex;
+  width: 80%;
+  max-width: 800px;
+  background-color: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  padding: 20px;
+}
+
+.left-section {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid #e0e0e0;
+  padding-right: 20px;
+}
+
+.digital-clock {
+  font-size: 3rem;
+  color: #333;
+}
+
+.digital-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.digital-date {
+  font-size: 1.2rem;
+  color: #666;
+  margin-top: 10px;
+}
+
+.right-section {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  padding-left: 20px;
+}
+
+.countdown-timer {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.countdown-display {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 15px;
+}
+
+.countdown-controls,
+.proctor-inputs {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+input {
+  padding: 10px;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.exam-controls {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+button {
+  padding: 10px 20px;
+  font-size: 1rem;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+#setTimerBtn {
+  background-color: #4CAF50;
+  color: white;
+}
+
+#setTimerBtn:hover {
+  background-color: #45a049;
+}
+
+#startBtn {
+  background-color: #2196F3;
+  color: white;
+}
+
+#startBtn:hover {
+  background-color: #1976D2;
+}
+
+#stopBtn {
+  background-color: #f44336;
+  color: white;
+}
+
+#stopBtn:hover {
+  background-color: #d32f2f;
+}
+
+#resetBtn {
+  background-color: #FFC107;
+  color: black;
+}
+
+#resetBtn:hover {
+  background-color: #FFA000;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Exam Start Styles */
+.exam-started .countdown-controls {
+  display: none;
+}
+
+.exam-started .countdown-display {
+  font-size: 4rem;
+  margin-bottom: 30px;
+}
+
+.exam-started .proctor-inputs input {
+  display: none;
+}
+
+.exam-started .exam-info {
+  text-align: center;
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+.author-info {
+  position: fixed;
+  bottom: 10px;
+  left: 0;
+  width: 100%;
+  text-align: center;
+  font-size: 0.8rem;
+  color: #666;
+}
