@@ -56,12 +56,14 @@ class ExamTimer {
     this.startBtn = document.getElementById('startBtn');
     this.stopBtn = document.getElementById('stopBtn');
     this.resetBtn = document.getElementById('resetBtn');
+    this.backgroundToggleBtn = document.getElementById('backgroundToggle');
 
     this.rightSection = document.querySelector('.right-section');
 
     this.countdownTimer = null;
     this.remainingTime = 0;
     this.countdownInterval = null;
+    this.currentBackground = 1;
 
     this.initializeEventListeners();
     this.updateDigitalClock();
@@ -73,6 +75,16 @@ class ExamTimer {
     this.startBtn.addEventListener('click', () => this.startExam());
     this.stopBtn.addEventListener('click', () => this.stopExam());
     this.resetBtn.addEventListener('click', () => this.resetExam());
+    this.backgroundToggleBtn.addEventListener('click', () => this.toggleBackground());
+  }
+
+  toggleBackground() {
+    this.currentBackground = this.currentBackground === 1 ? 2 : 1;
+    if (this.currentBackground === 2) {
+      document.body.classList.add('background-2');
+    } else {
+      document.body.classList.remove('background-2');
+    }
   }
 
   updateDigitalClock() {
