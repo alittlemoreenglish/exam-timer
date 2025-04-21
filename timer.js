@@ -57,6 +57,7 @@ class ExamTimer {
     this.stopBtn = document.getElementById('stopBtn');
     this.resetBtn = document.getElementById('resetBtn');
     this.backgroundToggleBtn = document.getElementById('backgroundToggle');
+    this.soundToggleBtn = document.getElementById('soundToggle');
 
     this.rightSection = document.querySelector('.right-section');
 
@@ -64,6 +65,8 @@ class ExamTimer {
     this.remainingTime = 0;
     this.countdownInterval = null;
     this.currentBackground = 1;
+    this.soundEnabled = false;
+    this.alarmSound = new Audio('sound.wav');
 
     this.initializeEventListeners();
     this.updateDigitalClock();
@@ -76,6 +79,7 @@ class ExamTimer {
     this.stopBtn.addEventListener('click', () => this.stopExam());
     this.resetBtn.addEventListener('click', () => this.resetExam());
     this.backgroundToggleBtn.addEventListener('click', () => this.toggleBackground());
+    this.soundToggleBtn.addEventListener('click', () => this.toggleSound());
   }
 
   toggleBackground() {
@@ -84,6 +88,17 @@ class ExamTimer {
       document.body.classList.add('background-2');
     } else {
       document.body.classList.remove('background-2');
+    }
+  }
+
+  toggleSound() {
+    this.soundEnabled = !this.soundEnabled;
+    if (this.soundEnabled) {
+      this.soundToggleBtn.textContent = 'Sound Effect: On';
+      this.soundToggleBtn.classList.add('active');
+    } else {
+      this.soundToggleBtn.textContent = 'Sound Effect: Off';
+      this.soundToggleBtn.classList.remove('active');
     }
   }
 
@@ -139,11 +154,27 @@ class ExamTimer {
       if (this.remainingTime <= 0) {
         this.remainingTime = 0;
         this.stopExam();
+        
+        // Play sound if enabled
+        if (this.soundEnabled) {
+          this.playAlarmSound();
+        }
+        
         alert('Exam time is over!');
       }
       
       this.countdownDisplay.textContent = this.formatTime(this.remainingTime);
     }, 1000);
+  }
+
+  playAlarmSound() {
+    // Reset the audio to the beginning if it was already played
+    this.alarmSound.currentTime = 0;
+    
+    // Play the sound
+    this.alarmSound.play().catch(error => {
+      console.error("Error playing sound:", error);
+    });
   }
 
   stopExam() {
