@@ -21,9 +21,12 @@ body.background-2 {
   top: 20px;
   right: 20px;
   z-index: 100;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
 }
 
-#backgroundToggle {
+#backgroundToggle, #soundToggle {
   padding: 8px 15px;
   font-size: 0.9rem;
   background-color: rgba(255, 255, 255, 0.8);
@@ -33,8 +36,13 @@ body.background-2 {
   transition: background-color 0.3s;
 }
 
-#backgroundToggle:hover {
+#backgroundToggle:hover, #soundToggle:hover {
   background-color: rgba(255, 255, 255, 1);
+}
+
+#soundToggle.active {
+  background-color: #4CAF50;
+  color: white;
 }
 
 .exam-timer-container {
