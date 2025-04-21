@@ -71,6 +71,7 @@ class ExamTimer {
     this.soundEnabled = false;
     this.alarmSound = new Audio('sound.wav');
     this.zoomLevel = 1;
+    // Explicitly initialize timerIsSet to false
     this.timerIsSet = false;
     this.examInProgress = false;
 
@@ -87,14 +88,22 @@ class ExamTimer {
 
   initializeEventListeners() {
     this.setTimerBtn.addEventListener('click', () => this.setExamDuration());
+    
+    // Completely rewrite the start button event listener
     this.startBtn.addEventListener('click', () => {
-      // Fix: Check the timerIsSet flag properly
-      if (!this.timerIsSet) {
+      console.log("Start button clicked, timerIsSet:", this.timerIsSet);
+      // Add direct validation here rather than relying on the flag
+      const hours = parseInt(this.examHoursInput.value) || 0;
+      const minutes = parseInt(this.examMinutesInput.value) || 0;
+      
+      if (hours === 0 && minutes === 0) {
         alert('Please set the timer before starting the exam.');
         return;
       }
+      
       this.startExam();
     });
+    
     this.stopBtn.addEventListener('click', () => this.stopExam());
     this.resetBtn.addEventListener('click', () => this.resetExam());
     this.backgroundToggleBtn.addEventListener('click', () => this.toggleBackground());
@@ -188,6 +197,7 @@ class ExamTimer {
     
     // Set timer state to ready
     this.timerIsSet = true;
+    console.log("Timer has been set, timerIsSet:", this.timerIsSet);
     
     // Enable start button and reset button, hide stop button
     this.startBtn.disabled = false;
@@ -228,14 +238,18 @@ class ExamTimer {
       
       if (this.remainingTime <= 0) {
         this.remainingTime = 0;
-        this.stopExam();
+        clearInterval(this.countdownInterval);
         
-        // Play sound if enabled before showing the alert
+        // Play sound immediately when time is over, before the alert
         if (this.soundEnabled) {
           this.playAlarmSound();
         }
         
-        alert('Exam time is over!');
+        // Display the alert after playing the sound
+        setTimeout(() => {
+          alert('Exam time is over!');
+          this.stopExam();
+        }, 100); // Small delay to ensure sound plays first
       }
       
       this.countdownDisplay.textContent = this.formatTime(this.remainingTime);
