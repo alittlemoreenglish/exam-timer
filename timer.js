@@ -71,6 +71,8 @@ class ExamTimer {
     this.soundEnabled = false;
     this.alarmSound = new Audio('sound.wav');
     this.zoomLevel = 1;
+    this.timerIsSet = false;
+    this.examInProgress = false;
 
     // Initial button states
     this.stopBtn.classList.add('hidden');
@@ -85,7 +87,13 @@ class ExamTimer {
 
   initializeEventListeners() {
     this.setTimerBtn.addEventListener('click', () => this.setExamDuration());
-    this.startBtn.addEventListener('click', () => this.startExam());
+    this.startBtn.addEventListener('click', () => {
+      if (!this.timerIsSet) {
+        alert('Please set the timer before starting the exam.');
+        return;
+      }
+      this.startExam();
+    });
     this.stopBtn.addEventListener('click', () => this.stopExam());
     this.resetBtn.addEventListener('click', () => this.resetExam());
     this.backgroundToggleBtn.addEventListener('click', () => this.toggleBackground());
@@ -177,8 +185,12 @@ class ExamTimer {
     this.remainingTime = (hours * 3600 + minutes * 60) * 1000;
     this.countdownDisplay.textContent = this.formatTime(this.remainingTime);
     
-    // Enable start button and disable others
+    // Set timer state to ready
+    this.timerIsSet = true;
+    
+    // Enable start button and reset button, hide stop button
     this.startBtn.disabled = false;
+    this.resetBtn.disabled = false;
     this.stopBtn.classList.add('hidden');
     
     // Disable timer inputs
@@ -189,6 +201,8 @@ class ExamTimer {
 
   startExam() {
     if (this.remainingTime <= 0) return;
+    
+    this.examInProgress = true;
 
     // Add exam started class
     this.rightSection.classList.add('exam-started');
@@ -206,6 +220,7 @@ class ExamTimer {
     this.startBtn.classList.add('hidden');
     this.stopBtn.classList.remove('hidden');
     this.stopBtn.disabled = false;
+    this.resetBtn.classList.add('hidden');
 
     this.countdownInterval = setInterval(() => {
       this.remainingTime -= 1000;
@@ -238,18 +253,24 @@ class ExamTimer {
 
   stopExam() {
     clearInterval(this.countdownInterval);
+    this.examInProgress = false;
+    
+    // Change button visibility - stop transforms into reset
     this.stopBtn.classList.add('hidden');
+    this.resetBtn.classList.remove('hidden');
     this.resetBtn.disabled = false;
   }
 
   resetExam() {
     clearInterval(this.countdownInterval);
     
-    // Remove exam started class and exam info
-    this.rightSection.classList.remove('exam-started');
-    const examInfoDiv = this.rightSection.querySelector('.exam-info');
-    if (examInfoDiv) {
-      examInfoDiv.remove();
+    // Remove exam started class and exam info if exam was in progress
+    if (this.examInProgress) {
+      this.rightSection.classList.remove('exam-started');
+      const examInfoDiv = this.rightSection.querySelector('.exam-info');
+      if (examInfoDiv) {
+        examInfoDiv.remove();
+      }
     }
     
     // Reset inputs
@@ -269,7 +290,10 @@ class ExamTimer {
     this.resetBtn.disabled = true;
     this.setTimerBtn.disabled = false;
     
+    // Reset timer states
     this.remainingTime = 0;
+    this.timerIsSet = false;
+    this.examInProgress = false;
   }
 
   formatTime(milliseconds) {
