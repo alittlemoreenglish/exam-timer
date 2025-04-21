@@ -88,6 +88,7 @@ class ExamTimer {
   initializeEventListeners() {
     this.setTimerBtn.addEventListener('click', () => this.setExamDuration());
     this.startBtn.addEventListener('click', () => {
+      // Fix: Check the timerIsSet flag properly
       if (!this.timerIsSet) {
         alert('Please set the timer before starting the exam.');
         return;
@@ -265,7 +266,7 @@ class ExamTimer {
     clearInterval(this.countdownInterval);
     
     // Remove exam started class and exam info if exam was in progress
-    if (this.examInProgress) {
+    if (this.rightSection.classList.contains('exam-started')) {
       this.rightSection.classList.remove('exam-started');
       const examInfoDiv = this.rightSection.querySelector('.exam-info');
       if (examInfoDiv) {
