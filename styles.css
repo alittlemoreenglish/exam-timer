@@ -45,6 +45,26 @@ body.background-2 {
   color: white;
 }
 
+.zoom-controls {
+  display: flex;
+  gap: 5px;
+}
+
+#zoomIn, #zoomOut {
+  padding: 6px 10px;
+  font-size: 0.8rem;
+  background-color: rgba(255, 255, 255, 0.8);
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  flex: 1;
+}
+
+#zoomIn:hover, #zoomOut:hover {
+  background-color: rgba(255, 255, 255, 1);
+}
+
 .exam-timer-container {
   display: flex;
   width: 80%;
@@ -53,8 +73,8 @@ body.background-2 {
   border-radius: 10px;
   box-shadow: 0 4px 6px rgba(0,0,0,0.1);
   padding: 20px;
+  transition: transform 0.3s ease;
 }
-
 
 .left-section {
   flex: 1;
@@ -115,6 +135,11 @@ input {
   border-radius: 5px;
 }
 
+input:invalid {
+  border-color: #f44336;
+  background-color: rgba(244, 67, 54, 0.1);
+}
+
 .exam-controls {
   display: flex;
   justify-content: space-between;
@@ -169,6 +194,10 @@ button {
 .disabled {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.hidden {
+  display: none !important;
 }
 
 /* Exam Start Styles */

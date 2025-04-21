@@ -58,7 +58,10 @@ class ExamTimer {
     this.resetBtn = document.getElementById('resetBtn');
     this.backgroundToggleBtn = document.getElementById('backgroundToggle');
     this.soundToggleBtn = document.getElementById('soundToggle');
+    this.zoomInBtn = document.getElementById('zoomIn');
+    this.zoomOutBtn = document.getElementById('zoomOut');
 
+    this.examTimerContainer = document.querySelector('.exam-timer-container');
     this.rightSection = document.querySelector('.right-section');
 
     this.countdownTimer = null;
@@ -67,10 +70,17 @@ class ExamTimer {
     this.currentBackground = 1;
     this.soundEnabled = false;
     this.alarmSound = new Audio('sound.wav');
+    this.zoomLevel = 1;
+
+    // Initial button states
+    this.stopBtn.classList.add('hidden');
+    this.resetBtn.disabled = true;
+    this.startBtn.disabled = true;
 
     this.initializeEventListeners();
     this.updateDigitalClock();
     setInterval(() => this.updateDigitalClock(), 1000);
+    this.setupInputValidation();
   }
 
   initializeEventListeners() {
@@ -80,6 +90,42 @@ class ExamTimer {
     this.resetBtn.addEventListener('click', () => this.resetExam());
     this.backgroundToggleBtn.addEventListener('click', () => this.toggleBackground());
     this.soundToggleBtn.addEventListener('click', () => this.toggleSound());
+    this.zoomInBtn.addEventListener('click', () => this.zoomIn());
+    this.zoomOutBtn.addEventListener('click', () => this.zoomOut());
+  }
+
+  setupInputValidation() {
+    // Validate that only integers are entered
+    const validateInteger = (input) => {
+      input.addEventListener('input', (e) => {
+        const value = e.target.value;
+        if (value && !Number.isInteger(parseFloat(value))) {
+          alert('Please enter only whole numbers (integers).');
+          e.target.value = Math.floor(parseFloat(value)) || '';
+        }
+      });
+    };
+
+    validateInteger(this.examHoursInput);
+    validateInteger(this.examMinutesInput);
+  }
+
+  zoomIn() {
+    if (this.zoomLevel < 1.5) {
+      this.zoomLevel += 0.1;
+      this.updateZoom();
+    }
+  }
+
+  zoomOut() {
+    if (this.zoomLevel > 0.7) {
+      this.zoomLevel -= 0.1;
+      this.updateZoom();
+    }
+  }
+
+  updateZoom() {
+    this.examTimerContainer.style.transform = `scale(${this.zoomLevel})`;
   }
 
   toggleBackground() {
@@ -117,11 +163,23 @@ class ExamTimer {
     const hours = parseInt(this.examHoursInput.value) || 0;
     const minutes = parseInt(this.examMinutesInput.value) || 0;
     
+    // Validate inputs
+    if (!Number.isInteger(hours) || !Number.isInteger(minutes)) {
+      alert('Please enter only whole numbers (integers).');
+      return;
+    }
+
+    if (hours === 0 && minutes === 0) {
+      alert('Please enter a valid exam duration.');
+      return;
+    }
+    
     this.remainingTime = (hours * 3600 + minutes * 60) * 1000;
     this.countdownDisplay.textContent = this.formatTime(this.remainingTime);
     
-    // Enable start button
+    // Enable start button and disable others
     this.startBtn.disabled = false;
+    this.stopBtn.classList.add('hidden');
     
     // Disable timer inputs
     this.examHoursInput.disabled = true;
@@ -144,8 +202,9 @@ class ExamTimer {
     `;
     this.rightSection.insertBefore(examInfoDiv, this.rightSection.firstChild);
 
-    // Disable inputs and start buttons
-    this.startBtn.disabled = true;
+    // Update button visibility
+    this.startBtn.classList.add('hidden');
+    this.stopBtn.classList.remove('hidden');
     this.stopBtn.disabled = false;
 
     this.countdownInterval = setInterval(() => {
@@ -155,7 +214,7 @@ class ExamTimer {
         this.remainingTime = 0;
         this.stopExam();
         
-        // Play sound if enabled
+        // Play sound if enabled before showing the alert
         if (this.soundEnabled) {
           this.playAlarmSound();
         }
@@ -179,7 +238,7 @@ class ExamTimer {
 
   stopExam() {
     clearInterval(this.countdownInterval);
-    this.stopBtn.disabled = true;
+    this.stopBtn.classList.add('hidden');
     this.resetBtn.disabled = false;
   }
 
@@ -204,6 +263,8 @@ class ExamTimer {
     this.examHoursInput.disabled = false;
     this.examMinutesInput.disabled = false;
     this.startBtn.disabled = true;
+    this.startBtn.classList.remove('hidden');
+    this.stopBtn.classList.add('hidden');
     this.stopBtn.disabled = true;
     this.resetBtn.disabled = true;
     this.setTimerBtn.disabled = false;

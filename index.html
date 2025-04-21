@@ -9,6 +9,10 @@
   <div class="theme-switcher">
     <button id="backgroundToggle">Switch Background</button>
     <button id="soundToggle">Sound Effect: Off</button>
+    <div class="zoom-controls">
+      <button id="zoomIn">Zoom In</button>
+      <button id="zoomOut">Zoom Out</button>
+    </div>
   </div>
   <div class="exam-timer-container">
     <div class="left-section">
@@ -21,8 +25,8 @@
       <div class="countdown-timer">
         <div id="countdownDisplay" class="countdown-display">00:00:00</div>
         <div class="countdown-controls">
-          <input type="number" id="examHours" placeholder="Hours" min="0">
-          <input type="number" id="examMinutesInput" placeholder="Minutes" min="0" max="59">
+          <input type="number" id="examHours" placeholder="Hours" min="0" step="1">
+          <input type="number" id="examMinutesInput" placeholder="Minutes" min="0" max="59" step="1">
           <button id="setTimerBtn">Set Timer</button>
         </div>
       </div>
@@ -37,7 +41,7 @@
       </div>
     </div>
   </div>
-  <div class="author-info">Author: Aaron Shi. Released in February 2025. Updated on March 14, 2025.</div>
+  <div class="author-info">Author: Aaron Shi. Released in February 2025. Updated on April 21, 2025.</div>
   <script type="module" src="timer.js"></script>
 </body>
 </html>
